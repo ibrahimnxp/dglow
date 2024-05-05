@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - GLOW BY DALLAH</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>GLOW BY DALLAH</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Cart</h2>
+        <ul id="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </ul>
+        <button id="checkout">Checkout</button>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartList = document.getElementById('cart-items');
+
+            // Function to remove an item from cart
+            function removeFromCart(index) {
+                cartItems.splice(index, 1);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                displayCartItems();
+            }
+
+            // Function to display cart items
+            function displayCartItems() {
+                cartList.innerHTML = ''; // Clear existing items
+                cartItems.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    const image = document.createElement('img');
+                    const productName = document.createElement('span');
+                    const removeButton = document.createElement('button');
+
+                    // Set image source and alt
+                    image.src = item.image;
+                    image.alt = item.name;
+
+                    // Set product name
+                    productName.textContent = item.name;
+
+                    // Remove button
+                    removeButton.textContent = 'Remove';
+                    removeButton.addEventListener('click', function() {
+                        removeFromCart(index);
+                    });
+
+                    // Append elements to list item
+                    li.appendChild(image);
+                    li.appendChild(productName);
+                    li.appendChild(removeButton);
+                    cartList.appendChild(li);
+                });
+            }
+
+            // Display initial cart items
+            displayCartItems();
+        });
+    </script>
+</body>
+</html>
